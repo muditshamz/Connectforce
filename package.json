@@ -2,7 +2,7 @@
   "name": "connectforce",
   "displayName": "Connectforce",
   "description": "Visual designer for building Salesforce integrations - Create API connectors, field mappings, and generate Apex callout classes",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "cleanforce",
   "engines": {
     "vscode": "^1.85.0"
