@@ -2,7 +2,7 @@
   "name": "connectforce",
   "displayName": "Connectforce",
   "description": "Visual designer for building Salesforce integrations - Create API connectors, field mappings, and generate Apex callout classes",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publisher": "cleanforce",
   "engines": {
     "vscode": "^1.85.0"
@@ -334,7 +334,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/connectforce"
+    "url": "https://github.com/muditshamz/Connectforce"
   },
   "license": "MIT"
 }
