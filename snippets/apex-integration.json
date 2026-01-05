@@ -1,0 +1,44 @@
+{
+    "HTTP GET Callout": {
+        "prefix": "sfint-get",
+        "body": [
+            "HttpRequest req = new HttpRequest();",
+            "req.setEndpoint('callout:${1:NamedCredential}/${2:endpoint}');",
+            "req.setMethod('GET');",
+            "req.setHeader('Content-Type', 'application/json');",
+            "HttpResponse res = new Http().send(req);",
+            "if (res.getStatusCode() == 200) {",
+            "    $0",
+            "}"
+        ],
+        "description": "HTTP GET callout"
+    },
+    "HTTP POST Callout": {
+        "prefix": "sfint-post",
+        "body": [
+            "HttpRequest req = new HttpRequest();",
+            "req.setEndpoint('callout:${1:NamedCredential}/${2:endpoint}');",
+            "req.setMethod('POST');",
+            "req.setHeader('Content-Type', 'application/json');",
+            "req.setBody(JSON.serialize(${3:body}));",
+            "HttpResponse res = new Http().send(req);",
+            "$0"
+        ],
+        "description": "HTTP POST callout"
+    },
+    "Mock HTTP Response": {
+        "prefix": "sfint-mock",
+        "body": [
+            "@isTest",
+            "public class ${1:Name}Mock implements HttpCalloutMock {",
+            "    public HTTPResponse respond(HTTPRequest req) {",
+            "        HttpResponse res = new HttpResponse();",
+            "        res.setStatusCode(200);",
+            "        res.setBody('{}');",
+            "        return res;",
+            "    }",
+            "}"
+        ],
+        "description": "Mock HTTP response class"
+    }
+}

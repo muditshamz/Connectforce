@@ -1,0 +1,340 @@
+{
+  "name": "connectforce",
+  "displayName": "Connectforce",
+  "description": "Visual designer for building Salesforce integrations - Create API connectors, field mappings, and generate Apex callout classes",
+  "version": "1.0.0",
+  "publisher": "cleanforce",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#00A1E0",
+    "theme": "light"
+  },
+  "categories": [
+    "Other",
+    "Snippets",
+    "Programming Languages"
+  ],
+  "keywords": [
+    "salesforce",
+    "integration",
+    "api",
+    "connector",
+    "apex",
+    "mulesoft",
+    "erp",
+    "netsuite",
+    "sap",
+    "RESTExplorer"
+  ],
+  "activationEvents": [
+    "workspaceContains:sfdx-project.json",
+    "workspaceContains:**/force-app/**"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "connectforce.openBuilder",
+        "title": "Open Integration Builder",
+        "category": "Connectforce",
+        "icon": "$(plug)"
+      },
+      {
+        "command": "connectforce.newConnection",
+        "title": "New External Connection",
+        "category": "Connectforce",
+        "icon": "$(add)"
+      },
+      {
+        "command": "connectforce.importOpenAPI",
+        "title": "Import OpenAPI/Swagger Spec",
+        "category": "Connectforce",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "connectforce.generateApex",
+        "title": "Generate Apex Callout Class",
+        "category": "Connectforce",
+        "icon": "$(code)"
+      },
+      {
+        "command": "connectforce.createNamedCredential",
+        "title": "Create Named Credential",
+        "category": "Connectforce",
+        "icon": "$(key)"
+      },
+      {
+        "command": "connectforce.createExternalService",
+        "title": "Create External Service",
+        "category": "Connectforce",
+        "icon": "$(cloud)"
+      },
+      {
+        "command": "connectforce.testConnection",
+        "title": "Test Connection",
+        "category": "Connectforce",
+        "icon": "$(debug-start)"
+      },
+      {
+        "command": "connectforce.openFieldMapper",
+        "title": "Open Field Mapper",
+        "category": "Connectforce",
+        "icon": "$(symbol-field)"
+      },
+      {
+        "command": "connectforce.refreshConnections",
+        "title": "Refresh Connections",
+        "category": "Connectforce",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "connectforce.deployToOrg",
+        "title": "Deploy Integration to Org",
+        "category": "Connectforce",
+        "icon": "$(cloud-upload)"
+      },
+      {
+        "command": "connectforce.viewIntegrationLogs",
+        "title": "View Integration Logs",
+        "category": "Connectforce",
+        "icon": "$(output)"
+      },
+      {
+        "command": "connectforce.createERPTemplate",
+        "title": "Create from ERP Template",
+        "category": "Connectforce",
+        "icon": "$(package)"
+      },
+      {
+        "command": "connectforce.openRestExplorer",
+        "title": "Open REST Explorer",
+        "category": "Connectforce",
+        "icon": "$(search)"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "connectforceExplorer",
+          "title": "Connectforces",
+          "icon": "$(plug)"
+        }
+      ]
+    },
+    "views": {
+      "connectforceExplorer": [
+        {
+          "id": "connectforce.connections",
+          "name": "Connections",
+          "icon": "$(plug)",
+          "contextualTitle": "External Connections"
+        },
+        {
+          "id": "connectforce.fieldMappings",
+          "name": "Field Mappings",
+          "icon": "$(symbol-field)",
+          "contextualTitle": "Field Mappings"
+        },
+        {
+          "id": "connectforce.templates",
+          "name": "Templates",
+          "icon": "$(package)",
+          "contextualTitle": "Integration Templates"
+        },
+        {
+          "id": "connectforce.syncStatus",
+          "name": "Sync Status",
+          "icon": "$(sync)",
+          "contextualTitle": "Sync Status"
+        },
+        {
+          "id": "connectforce.restExplorer",
+          "name": "REST Explorer",
+          "icon": "$(search)",
+          "contextualTitle": "Salesforce REST Explorer",
+          "type": "webview"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "connectforce.newConnection",
+          "when": "view == connectforce.connections",
+          "group": "navigation"
+        },
+        {
+          "command": "connectforce.openRestExplorer",
+          "when": "view == connectforce.restExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "connectforce.refreshConnections",
+          "when": "view == connectforce.connections",
+          "group": "navigation"
+        },
+        {
+          "command": "connectforce.importOpenAPI",
+          "when": "view == connectforce.connections",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "connectforce.testConnection",
+          "when": "view == connectforce.connections && viewItem == connection",
+          "group": "inline"
+        },
+        {
+          "command": "connectforce.generateApex",
+          "when": "view == connectforce.connections && viewItem == connection"
+        },
+        {
+          "command": "connectforce.openFieldMapper",
+          "when": "view == connectforce.connections && viewItem == connection"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "connectforce.openBuilder",
+          "when": "workspaceFolderCount > 0"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Connectforce",
+      "properties": {
+        "connectforce.defaultAuthType": {
+          "type": "string",
+          "default": "OAuth2",
+          "enum": [
+            "OAuth2",
+            "Basic",
+            "API_Key",
+            "JWT",
+            "Certificate"
+          ],
+          "description": "Default authentication type for new connections"
+        },
+        "connectforce.apexOutputPath": {
+          "type": "string",
+          "default": "force-app/main/default/classes",
+          "description": "Output path for generated Apex classes"
+        },
+        "connectforce.namedCredentialPath": {
+          "type": "string",
+          "default": "force-app/main/default/namedCredentials",
+          "description": "Output path for Named Credentials"
+        },
+        "connectforce.externalServicePath": {
+          "type": "string",
+          "default": "force-app/main/default/externalServiceRegistrations",
+          "description": "Output path for External Services"
+        },
+        "connectforce.generateTestClasses": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically generate test classes for Apex callouts"
+        },
+        "connectforce.enableMockServices": {
+          "type": "boolean",
+          "default": true,
+          "description": "Generate mock service classes for testing"
+        },
+        "connectforce.autoSyncFieldMappings": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically sync field mappings when external schema changes"
+        },
+        "connectforce.logLevel": {
+          "type": "string",
+          "default": "info",
+          "enum": [
+            "debug",
+            "info",
+            "warn",
+            "error"
+          ],
+          "description": "Log level for extension output"
+        }
+      }
+    },
+    "snippets": [
+      {
+        "language": "apex",
+        "path": "./snippets/apex-integration.json"
+      }
+    ],
+    "walkthroughs": [
+      {
+        "id": "connectforce.gettingStarted",
+        "title": "Getting Started with Integration Builder",
+        "description": "Learn how to build Salesforce integrations quickly",
+        "steps": [
+          {
+            "id": "openBuilder",
+            "title": "Open Integration Builder",
+            "description": "Click the plug icon in the activity bar to open the Integration Builder panel.",
+            "media": {
+              "markdown": "Open the Integration Builder from the activity bar to get started."
+            }
+          },
+          {
+            "id": "createConnection",
+            "title": "Create Your First Connection",
+            "description": "Create a new external connection by clicking the + button or importing an OpenAPI spec.",
+            "command": "connectforce.newConnection"
+          },
+          {
+            "id": "mapFields",
+            "title": "Map Fields",
+            "description": "Use the visual field mapper to connect external fields to Salesforce objects.",
+            "command": "connectforce.openFieldMapper"
+          },
+          {
+            "id": "generateCode",
+            "title": "Generate Apex Code",
+            "description": "Generate Apex callout classes, Named Credentials, and External Services.",
+            "command": "connectforce.generateApex"
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.10.0",
+    "@types/uuid": "^9.0.7",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^2.22.0",
+    "esbuild": "^0.27.2",
+    "typescript": "^5.3.0",
+    "vscode-test": "^1.6.1"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "js-yaml": "^4.1.0",
+    "jsforce": "^3.10.10",
+    "uuid": "^9.0.0",
+    "yaml": "^2.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/connectforce"
+  },
+  "license": "MIT"
+}
